@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface VideoRepository extends MongoRepository<Video,String> {
 
-    Optional<Video> findByUuid(String videoUuid);
+    Optional<Video> findByVideoUUID(String videoID);
 }

@@ -25,17 +25,17 @@ public class VideoService {
 
 
     public UploadVideoResponse uploadVideo(MultipartFile multipartFile) throws IOException {
-        String uuid = fileService.uploadFile(multipartFile); //Save in Uploads
+        String videoID = fileService.uploadFile(multipartFile); //Save in Uploads
         Video video = new Video();
-        video.setUuid(uuid);
-//        video.setVideoUrl(HOST+uuid);
+        video.setVideoUUID(videoID);
+        video.setVideoUrl(HOST+videoID);
         Video savedVideo = videoRepository.save(video); //Save in DataBase
-        return new UploadVideoResponse(savedVideo.getId(),(HOST+savedVideo.getId()));
+        return new UploadVideoResponse(savedVideo.getId(),(savedVideo.getVideoUrl()));
     }
-    public Mono<Resource> getVideoStream(String videoId) {
-        var video = getVideoById(videoId);
-        String x = "file:///D:/uploads/1.mp4";
-        return Mono.fromSupplier(()-> resourceLoader.getResource(String.format(FORMAT,video.getUuid())));
+    public Mono<Resource> getVideoStream(String videoID) {
+        var video = getVideoByUUID(videoID);
+//        String x = "file:///D:/uploads/1.mp4";
+        return Mono.fromSupplier(()-> resourceLoader.getResource(String.format(FORMAT,video.getVideoUUID())));
     }
 
 
@@ -43,7 +43,8 @@ public class VideoService {
     public void uploadThumbnail(MultipartFile file, String videoId) throws IOException {
         Video video = getVideoById(videoId);
         String thumbnailUUID = fileService.uploadFile(file);
-        video.setThumbnailUUID(thumbnailUUID);
+        video.setThumbnailID(thumbnailUUID);
+        video.setThumbnailUrl(HOST+thumbnailUUID);
         videoRepository.save(video);
     }
 
@@ -62,11 +63,11 @@ public class VideoService {
         return videoRepository.findById(videoId)
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find video by id - " + videoId));
     }
-//    public Video getVideoByUuid(String videoUuid) {
-//        return videoRepository.findByUuid(videoUuid)
-//                .orElseThrow(() -> new IllegalArgumentException("Cannot find video by uuid - " + videoUuid));
-//
-//    }
+    public Video getVideoByUUID(String videoUUID) {
+        return videoRepository.findByVideoUUID(videoUUID)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find video by videoUUID - " + videoUUID));
+
+    }
     public VideoDto getVideoDetails(String videoId) {
         Video savedVideo = getVideoById(videoId);
         VideoDto videoDto = new VideoDto();
