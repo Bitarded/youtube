@@ -18,6 +18,10 @@ target/
 *.iws
 *.iml
 *.ipr
+frontend/youtube-ui/.angular
+frontend/youtube-ui/node_modules
+frontend/youtube-ui/dist
+*node_modules/*
 
 ### NetBeans ###
 /nbproject/private/
@@ -28,10 +32,8 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-frontend/youtube-clone-ui/node
-frontend/youtube-clone-ui/node_modules
-frontend/youtube-clone-ui/dist
 ### VS Code ###
 .vscode/
 /frontend/youtube-ui/node/
+node_modules/
+

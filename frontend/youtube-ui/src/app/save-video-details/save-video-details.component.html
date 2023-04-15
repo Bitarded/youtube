@@ -1,0 +1,67 @@
+<div fxLayout="row wrap">
+  <div fxFlex="20%">Hi</div>
+
+  <div fxFlex="25">
+    <div class="mat-title">Add video Metadata</div>
+
+    <form [formGroup]="saveVideoDetailsForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput [formControl]="title" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput [formControl]="description" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Video Status</mat-label>
+        <mat-select [formControl]="videoStatus">
+          <mat-option value="PUBLIC">Public</mat-option>
+          <mat-option value="PRIVATE">Private</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-chip-list" appearance="fill">
+        <mat-label>Tags</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Add tag...">
+          <mat-chip-row *ngFor="let tag of tags"
+                        (removed)="remove(tag)"
+                        [aria-description]="'press enter to edit ' + tag">
+            {{tag}}
+            <button matChipRemove [attr.aria-label]="'remove ' + tag">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input placeholder="Add tag..."
+                 [matChipInputFor]="chipGrid"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)"/>
+        </mat-chip-grid>
+      </mat-form-field>
+      <div>
+        <label for="inputGroupFile01">Upload Thumbnail:
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01"
+                   aria-describedby="inputGroupFileAddon01" (change)="onFileSelected($event)">
+          </div>
+          <br/>
+          <div *ngIf="fileSelected">
+            <div>
+              <p>Selected File: {{selectedFileName}}</p>
+            </div>
+            <hr>
+             <button  mat-raised-button color="primary" type="submit" (click)="onUpload()">Upload</button>
+
+          </div>
+        </label>
+        <button type="submit" mat-raised-button color="primary" (click)="saveVideo()">Save</button>
+      </div>
+    </form>
+  </div>
+
+  <div fxFlex="30%">
+    <app-video-player [videoUrl]="videoUrl"></app-video-player>
+  </div>
+
+  <div fxFlex="25%">Hi</div>
+</div>
