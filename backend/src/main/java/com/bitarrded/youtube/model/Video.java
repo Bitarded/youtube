@@ -16,7 +16,7 @@ import java.util.Set;
 public class Video {
     @Id
     private String id;
-    private String uuid;
+    private String videoUUID;
     private String title;
     private String description;
     private String userId;
@@ -27,7 +27,7 @@ public class Video {
     private VideoStatus videoStatus;
     private Integer viewCount;
     private String thumbnailUrl;
-    private String thumbnailUUID;
+    private String thumbnailID;
     private List<Comment> commentList;
 
 }

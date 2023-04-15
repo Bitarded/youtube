@@ -20,7 +20,7 @@ public class FileServiceImpl implements FileService {
         }
         File uploadedFile = new File(directory.getAbsolutePath() + File.separator + UUID.randomUUID());
         file.transferTo(uploadedFile);
-        String uuid = uploadedFile.getName();
-        return uuid;
+        String id = uploadedFile.getName();
+        return id;
     }
 }
