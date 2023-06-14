@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  maildev:
+    container_name: maildev_youtube
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    image: maildev/maildev
+  redis:
+      container_name: redis_youtube
+      ports:
+        - "6379:6379"
+      image: redis/redis-stack-server:latest
+  minio:
+      container_name: minio_youtube
+      ports:
+        - "9000:9001"
+      image: minio/minio

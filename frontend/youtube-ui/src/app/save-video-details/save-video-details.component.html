@@ -21,7 +21,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="example-chip-list" appearance="fill">
-        <mat-label>Tags</mat-label>
+<!--        <mat-label>Tags</mat-label>-->
         <mat-chip-grid #chipGrid aria-label="Add tag...">
           <mat-chip-row *ngFor="let tag of tags"
                         (removed)="remove(tag)"
@@ -31,11 +31,11 @@
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip-row>
-          <input placeholder="Add tag..."
-                 [matChipInputFor]="chipGrid"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="add($event)"/>
+<!--          <input placeholder="Add tag..."-->
+<!--                 [matChipInputFor]="chipGrid"-->
+<!--                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"-->
+<!--                 [matChipInputAddOnBlur]="addOnBlur"-->
+<!--                 (matChipInputTokenEnd)="add($event)"/>-->
         </mat-chip-grid>
       </mat-form-field>
       <div>

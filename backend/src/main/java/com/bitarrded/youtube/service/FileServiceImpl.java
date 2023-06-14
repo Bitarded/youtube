@@ -14,13 +14,12 @@ public class FileServiceImpl implements FileService {
     @Override
     public String uploadFile(MultipartFile file) throws IOException {
         // Save the file to a directory on the server
-        File directory = new File("D:\\uploads");
+        File directory = new File("uploads1");
         if (!directory.exists()) {
             directory.mkdirs();
         }
         File uploadedFile = new File(directory.getAbsolutePath() + File.separator + UUID.randomUUID());
         file.transferTo(uploadedFile);
-        String id = uploadedFile.getName();
-        return id;
+        return uploadedFile.getName();
     }
 }

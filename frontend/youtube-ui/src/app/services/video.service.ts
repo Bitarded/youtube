@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {FileSystemFileEntry} from "ngx-file-drop";
 import {Observable} from "rxjs";
-import {UploadVideoResponse} from "./UploadVideoResponse";
-import {VideoDto} from "./video-dto";
+import {UploadVideoResponse} from "../upload-video/UploadVideoResponse";
+import {VideoDto} from "../upload-video/video-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +35,16 @@ export class VideoService {
 
   saveVideo(videoMetaData: VideoDto): Observable<VideoDto>  {
     return this.httpClient.put<VideoDto>("http://localhost:8080/video",videoMetaData)
+  }
+
+  getAllVideos():Observable<Array<VideoDto>>{
+   return this.httpClient.get<Array<VideoDto>>("http://localhost:8080/video")
+  }
+
+  likeVideo(videoId: string):Observable<VideoDto> {
+    return this.httpClient.post<VideoDto>("http://localhost:8080/video/"+videoId+"/like",null);
+  }
+  dislikeVideo(videoId: string):Observable<VideoDto> {
+    return this.httpClient.post<VideoDto>("http://localhost:8080/video/"+videoId+"/dislike",null);
   }
 }

@@ -16,6 +16,6 @@ export class AppComponent implements OnInit{
     // this.oidcSecurityService.checkAuth()
     //   .subscribe(({ isAuthenticated }) => {
     //     console.log('app is authenticated', isAuthenticated);
-    //   });
+    //   })
   }
 }

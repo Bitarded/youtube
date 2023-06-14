@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry} from 'ngx-file-drop';
-import {VideoService} from "./video.service";
+import {VideoService} from "../services/video.service";
 import {Router} from "@angular/router";
 
 @Component({
