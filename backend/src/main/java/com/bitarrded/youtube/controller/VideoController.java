@@ -1,5 +1,6 @@
 package com.bitarrded.youtube.controller;
 
+import com.bitarrded.youtube.dto.CommentDto;
 import com.bitarrded.youtube.dto.UploadVideoResponse;
 import com.bitarrded.youtube.dto.VideoDto;
 import com.bitarrded.youtube.service.VideoService;
@@ -12,11 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/video")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*")
 public class VideoController {
     private final VideoService videoService;
     private final VideoDto videoDto;
@@ -30,7 +33,7 @@ public class VideoController {
             return videoService.uploadVideo(file);
         } catch (IOException e) {
             log.info("Failed to upload file");
-            throw new IllegalArgumentException("Failed to upload file");
+            throw new IllegalArgumentException("Failed to upload file" +e);
         }
     }
 
@@ -40,7 +43,7 @@ public class VideoController {
         try {
             log.info("Video: {} got new thumbnail: {} ", videoService.getVideoById(videoId).getVideoUrl(),
                     file.getOriginalFilename());
-             videoService.uploadThumbnail(file, videoId);
+            videoService.uploadThumbnail(file, videoId);
         } catch (IOException e) {
             throw new IllegalArgumentException("Failed to upload Thumbnail");
         }
@@ -58,12 +61,43 @@ public class VideoController {
         return videoService.getVideoDetails(videoId);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+
     @GetMapping(value = "/player/{videoId}")
-//    @ContentType()
-    public Mono<Resource> getVideoStream(@PathVariable String videoId, @RequestHeader(required = false) String range) {
+    public Mono<Resource> getVideoStream(@PathVariable String videoId, String range) {
         log.info("Range in bytes: " + range);
         return videoService.getVideoStream(videoId);
     }
+
+    @PostMapping("/{videoId}/like")
+    @ResponseStatus(HttpStatus.OK)
+    public VideoDto likeVideo(@PathVariable String videoId) {
+        return videoService.likeVideo(videoId);
+    }
+
+    @PostMapping("/{videoId}/dislike")
+    @ResponseStatus(HttpStatus.OK)
+    public VideoDto dislikeVideo(@PathVariable String videoId) {
+        return videoService.dislikeVideo(videoId);
+    }
+
+    @PostMapping("/{videoId}/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public void addComment(@PathVariable String videoId, @RequestBody CommentDto commentDto) {
+        videoService.addComment(videoId, commentDto);
+    }
+
+    @GetMapping("/{videoId}/comment")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentDto> getAllComments(@PathVariable String videoId) {
+        return videoService.getAllComments(videoId);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoDto> getAllVideos() {
+        return videoService.getAllVideos();
+    }
+
+
 }
 

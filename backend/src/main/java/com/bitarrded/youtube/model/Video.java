@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Document(value = "Video")
 @Data
@@ -20,14 +22,37 @@ public class Video {
     private String title;
     private String description;
     private String userId;
-    private Integer likes;
-    private Integer dislikes;
+    private AtomicInteger likes = new AtomicInteger(0);
+    private AtomicInteger dislikes = new AtomicInteger(0);
     private Set<String> tags;
     private String videoUrl;
     private VideoStatus videoStatus;
-    private Integer viewCount;
+    private AtomicInteger viewCount = new AtomicInteger(0);
     private String thumbnailUrl;
     private String thumbnailID;
-    private List<Comment> commentList;
+    private List<Comment> commentList = new CopyOnWriteArrayList<>();
 
+    public void incrementLikes() {
+        likes.incrementAndGet();
+    }
+
+    public void decrementLikes() {
+        likes.decrementAndGet();
+    }
+
+    public void incrementDisLikes() {
+        dislikes.incrementAndGet();
+    }
+
+    public void decrementDisLikes() {
+        dislikes.decrementAndGet();
+    }
+
+    public void incrementViewCount() {
+        viewCount.incrementAndGet();
+    }
+
+    public void addComment(Comment comment) {
+        commentList.add(comment);
+    }
 }
